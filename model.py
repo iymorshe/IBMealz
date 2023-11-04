@@ -1,8 +1,10 @@
+from dotenv import load_dotenv
+import os
 
 
-
-
-gpt_api_KEY = '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'
+load_dotenv()
+gpt_api_KEY = os.getenv('API_KEY')
 
 def getRecipes(ingredients):
     # gpt crap idk
+    return 0
