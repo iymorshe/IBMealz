@@ -3,7 +3,7 @@ import os
 import openai
 
 import json
-from test import Flask, request, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 import pandas as pd
