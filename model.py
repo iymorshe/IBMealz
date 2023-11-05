@@ -17,7 +17,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/food_input', methods=['POST'])
-@cross_origin(origins=["http://localhost:3000"])
+@cross_origin(origins=["*"])
 def nearby_places():
     # Parse JSON data from the request
     data = request.get_json()
