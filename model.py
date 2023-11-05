@@ -3,21 +3,20 @@ import os
 import openai
 
 import json
-from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
+from test import Flask, request, jsonify
+from flask_cors import CORS
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 load_dotenv()
-openai.api_key = os.getenv('API_KEY')
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/food_input', methods=['POST'])
-@cross_origin(origins=["http://localhost:3000"])
 def nearby_places():
     # Parse JSON data from the request
     data = request.get_json()
@@ -123,7 +122,7 @@ def rank_meals(user_preferences, vectorizer, tfidf_matrix, meals):
     return ranked_meals
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True)
+    app.run(debug=True)
 
 '''
 # Main function to use

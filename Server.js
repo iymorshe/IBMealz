@@ -26,6 +26,6 @@ const express = require('express');
 const app = express();
 
 app.use(cors(corsOptions));
-server.listen(8001, () => {
+server.listen(8000, () => {
     console.log('Server running on port 8001');
 });
