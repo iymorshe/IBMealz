@@ -2,13 +2,47 @@ from dotenv import load_dotenv
 import os
 import openai
 
+import json
+from flask import Flask, request, jsonify
+
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-
 load_dotenv()
 openai.api_key = os.getenv('API_KEY')
+
+app = Flask(__name__)
+
+@app.route('/food_input', methods=['POST'])
+def nearby_places():
+    # Parse JSON data from the request
+    data = request.get_json()
+    
+    # Validate the JSON data
+    if not data or 'location' not in data or 'cuisine' not in data or 'userPreferences' not in data:
+        return jsonify({"error": "Missing 'location' or 'mealPreference' in JSON data"}), 400
+
+    location = data['location']
+    cuisine = data['cuisine']
+    userPreferences = data['userPreferences']
+
+    meals = generate_recipe(location, cuisine)
+
+    # Train the model
+    vectorizer, tfidf_matrix = train_model(meals)
+    # Rank the meals based on user preferences
+    ranked_meal_list = rank_meals(userPreferences, vectorizer, tfidf_matrix, meals)
+
+    resList = []
+    for meal, score in ranked_meal_list:
+        resList.append(meal)
+        # print(f"Meal: {meal}, Score: {score}")
+    
+    jsonified = jsonify(resList)
+
+    print(jsonified)
+    return jsonified
 
 def generate_recipe(location, cuisine):
     """
@@ -85,6 +119,10 @@ def rank_meals(user_preferences, vectorizer, tfidf_matrix, meals):
     ranked_meals = [(meals.iloc[i]['title'], score) for i, score in sorted_meals]
     return ranked_meals
 
+if __name__ == '__main__':
+    app.run(debug=True)
+
+'''
 # Main function to use
 def main(user_input_preferences, csv_file_path, recipes):
     # Load and preprocess the data
@@ -97,7 +135,18 @@ def main(user_input_preferences, csv_file_path, recipes):
     vectorizer, tfidf_matrix = train_model(meals)
     # Rank the meals based on user preferences
     ranked_meal_list = rank_meals(user_input_preferences, vectorizer, tfidf_matrix, meals)
-    return ranked_meal_list
+    
+    # print(ranked_meal_list)
+
+    resList = []
+    for meal, score in ranked_meal_list:
+        resList.append(meal)
+        # print(f"Meal: {meal}, Score: {score}")
+    
+    jsonResult = json.dumps(resList)
+
+    return jsonResult
+    # return ranked_meal_list
 
 # Example usage
 if __name__ == "__main__":
@@ -107,7 +156,7 @@ if __name__ == "__main__":
 
     user_preferences = ["salad", "soup"]
     csv_file_path = 'archive/epi_r.csv'  # replace with your actual CSV file path
+    
     ranked_meals = main(user_preferences, csv_file_path, recipe)
-    # print(ranked_meals['title'])
-    for meal, score in ranked_meals:
-        print(f"Meal: {meal}, Score: {score}")
+'''
+
