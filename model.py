@@ -4,6 +4,7 @@ import openai
 
 import json
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -13,6 +14,7 @@ load_dotenv()
 openai.api_key = os.getenv('API_KEY')
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/food_input', methods=['POST'])
 def nearby_places():

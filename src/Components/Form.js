@@ -1,39 +1,41 @@
 import React, { useState } from 'react';
 
 function TextBox() {
-    const [mealPreference, setMealPreference] = useState('');
-    const [soupOrSalad, setSoupOrSalad] = useState('');
-    const [riceOrBeans, setRiceOrBeans] = useState('');
-    const [chickenOrBeef, setChickenOrBeef] = useState('');
-    const [coldOrHot, setColdOrHot] = useState('');
+    const [cuisine, setMealPreference] = useState('');
+    // const [soupOrSalad, setSoupOrSalad] = useState('');
+    // const [riceOrBeans, setRiceOrBeans] = useState('');
+    // const [chickenOrBeef, setChickenOrBeef] = useState('');
+    // const [coldOrHot, setColdOrHot] = useState('');
 
     const handleMealPreferenceChange = (event) => {
         setMealPreference(event.target.value);
     };
 
-    const handleSoupOrSaladChange = (event) => {
-        setSoupOrSalad(event.target.value);
-    };
+    // const handleSoupOrSaladChange = (event) => {
+    //     setSoupOrSalad(event.target.value);
+    // };
 
-    const handleRiceOrBeansChange = (event) => {
-        setRiceOrBeans(event.target.value);
-    };
+    // const handleRiceOrBeansChange = (event) => {
+    //     setRiceOrBeans(event.target.value);
+    // };
 
-    const handleChickenOrBeefChange = (event) => {
-        setChickenOrBeef(event.target.value);
-    };
+    // const handleChickenOrBeefChange = (event) => {
+    //     setChickenOrBeef(event.target.value);
+    // };
 
-    const handleColdOrHotChange = (event) => {
-        setColdOrHot(event.target.value);
-    };
+    // const handleColdOrHotChange = (event) => {
+    //     setColdOrHot(event.target.value);
+    // };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const location = event.target.location.value;
-        const data = { location, mealPreference, soupOrSalad, riceOrBeans, chickenOrBeef, coldOrHot };
+        const userPreferences = event.target.userPreferences.value;
+        const data = { location, cuisine, userPreferences};
         console.log(data);
         fetch('http://localhost:5000/food_input', {
             method: 'POST',
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -59,8 +61,15 @@ function TextBox() {
                 <br />
                 <div>
                 <label>
+                    userPreferences:     
+                    <input type="text" name="userPreferences" />
+                </label>
+                </div>
+                <br />
+                <div>
+                <label>
                     Meal Preferences:
-                    <select value={mealPreference} onChange={handleMealPreferenceChange} name="mealPreferences">
+                    <select value={cuisine} onChange={handleMealPreferenceChange} name="cuisine">
                         <option value="">Select an option</option>
                         <option value="Halal">Halal</option>
                         <option value="Vegan">Vegan</option>
@@ -70,7 +79,7 @@ function TextBox() {
                 </label>
                 </div>
                 <br />
-                <div>
+                {/* <div>
                 <label>
                     Soup or Salad:
                     <select value={soupOrSalad} onChange={handleSoupOrSaladChange} name="soupOrSalad">
@@ -113,7 +122,7 @@ function TextBox() {
                     </select>
                 </label>
                 </div>
-                <br />
+                <br /> */}
                 <input type="submit" value="Submit" />
             </form>
         </div>
