@@ -2,19 +2,38 @@ import React, { useState } from 'react';
 
 function TextBox() {
     const [mealPreference, setMealPreference] = useState('');
+    const [soupOrSalad, setSoupOrSalad] = useState('');
+    const [riceOrBeans, setRiceOrBeans] = useState('');
+    const [chickenOrBeef, setChickenOrBeef] = useState('');
+    const [coldOrHot, setColdOrHot] = useState('');
 
     const handleMealPreferenceChange = (event) => {
         setMealPreference(event.target.value);
     };
 
+    const handleSoupOrSaladChange = (event) => {
+        setSoupOrSalad(event.target.value);
+    };
+
+    const handleRiceOrBeansChange = (event) => {
+        setRiceOrBeans(event.target.value);
+    };
+
+    const handleChickenOrBeefChange = (event) => {
+        setChickenOrBeef(event.target.value);
+    };
+
+    const handleColdOrHotChange = (event) => {
+        setColdOrHot(event.target.value);
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const location = event.target.location.value;
-        const data = { location, mealPreference };
+        const data = { location, mealPreference, soupOrSalad, riceOrBeans, chickenOrBeef, coldOrHot };
         console.log(data);
-        fetch('http://localhost:8001', {
+        fetch('http://localhost:5000/food_input', {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -47,6 +66,50 @@ function TextBox() {
                         <option value="Vegan">Vegan</option>
                         <option value="Vegetarian">Vegetarian</option>
                         <option value="Anything">Anything</option>
+                    </select>
+                </label>
+                </div>
+                <br />
+                <div>
+                <label>
+                    Soup or Salad:
+                    <select value={soupOrSalad} onChange={handleSoupOrSaladChange} name="soupOrSalad">
+                        <option value="">Select an option</option>
+                        <option value="Soup">Soup</option>
+                        <option value="Salad">Salad</option>
+                    </select>
+                </label>
+                </div>
+                <br />
+                <div>
+                <label>
+                    Rice or Beans:
+                    <select value={riceOrBeans} onChange={handleRiceOrBeansChange} name="riceOrBeans">
+                        <option value="">Select an option</option>
+                        <option value="Rice">Rice</option>
+                        <option value="Beans">Beans</option>
+                    </select>
+                </label>
+                </div>
+                <br />
+                <div>
+                <label>
+                    Chicken or Beef:
+                    <select value={chickenOrBeef} onChange={handleChickenOrBeefChange} name="chickenOrBeef">
+                        <option value="">Select an option</option>
+                        <option value="Chicken">Chicken</option>
+                        <option value="Beef">Beef</option>
+                    </select>
+                </label>
+                </div>
+                <br />
+                <div>
+                <label>
+                    Cold or Hot:
+                    <select value={coldOrHot} onChange={handleColdOrHotChange} name="coldOrHot">
+                        <option value="">Select an option</option>
+                        <option value="Cold">Cold</option>
+                        <option value="Hot">Hot</option>
                     </select>
                 </label>
                 </div>
