@@ -35,15 +35,20 @@ function TextBox() {
         const userPreferences = event.target.userPreferences.value;
         const data = { location, cuisine, userPreferences};
         console.log(data);
-        fetch('http://localhost:5000/food_input', {
+        fetch('http://localhost:8000/food_input', {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // only parse as JSON if the response is OK
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        })
         .then(data => console.log(data))
         .catch((error) => {
             console.error('Error:', error);
