@@ -4,7 +4,7 @@ import openai
 
 import json
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -17,6 +17,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/food_input', methods=['POST'])
+@cross_origin(origins=["http://localhost:3000"])
 def nearby_places():
     # Parse JSON data from the request
     data = request.get_json()
@@ -122,7 +123,7 @@ def rank_meals(user_preferences, vectorizer, tfidf_matrix, meals):
     return ranked_meals
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=8000, debug=True)
 
 '''
 # Main function to use
