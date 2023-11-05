@@ -3,6 +3,7 @@ import MealList from './Meal';
 
 function TextBox() {
     const [cuisine, setMealPreference] = useState('');
+    const [meals, setMeals] = useState([]); // State to store meals data
     // const [soupOrSalad, setSoupOrSalad] = useState('');
     // const [riceOrBeans, setRiceOrBeans] = useState('');
     // const [chickenOrBeef, setChickenOrBeef] = useState('');
@@ -35,7 +36,7 @@ function TextBox() {
         const userPreferences = event.target.userPreferences.value;
         const data = { location, cuisine, userPreferences};
         console.log(data);
-        fetch('http://localhost:8000/food_input', {
+        fetch('https://b286-168-150-123-187.ngrok-free.app/food_input', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +50,8 @@ function TextBox() {
                 throw new Error('Network response was not ok.');
             }
         })
-        .then(data => console.log(data))
+        .then(data => 
+            setMeals(data))
         .catch((error) => {
             console.error('Error:', error);
         });
@@ -57,7 +59,7 @@ function TextBox() {
 
     return (
         <div>
-            <h2>Please input your preferences</h2>
+            <h2>IBMEALZ</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                 <label>
@@ -132,7 +134,7 @@ function TextBox() {
                 <br /> */}
                 <input type="submit" value="Submit" />
             </form>
-            <MealList meals={['pizza']} />
+            <MealList meals={meals} />
         </div>
     );
 }
